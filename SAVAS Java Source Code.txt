@@ -1,0 +1,527 @@
+package electricity_billing;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class Registration extends Customer {
+
+	public Registration() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		Scanner sc=new Scanner(System.in);
+		Customer c=new Customer();
+		Customer c1=new Customer(firstname, lastname, address);
+		EBSystem eb=new EBSystem();
+		Failedreg f=new Failedreg();
+		Bill b=new Bill();
+		System.out.println("Welcome to SAVAS ELectricity Bill Generation System");
+		System.out.println("\nPress 1 for Registration\n"+"Press 2 for Login");
+		int opt=sc.nextInt();
+		switch(opt)
+		{
+		case 1:
+			
+			c1.Registration();
+			if(password.equals(repassword)){
+			System.out.println("\nPress 3 to login.");
+			
+		   int n=sc.nextInt();
+		     switch(n)
+		    {
+		    case 3: 
+		    	c1.Login1();
+		    	if(Username.equals(username)&& Password.equals(password))
+		    	{	
+		    		System.out.println("\n\nLogin Successful! \nEnter Consumer Details");
+		    		c1.Consumerdetails();
+		    		c1.enterMeterDetails();
+		    		eb.calculateBill();
+		    		b.displayBillDetails();
+		    	}
+		    	else
+		    	{
+		    		System.out.println("\nLogin Failed. Please Try Again");
+					f.failed();
+		    	}
+		    }
+			}	
+			else
+			{
+				System.out.println("\nRegistration cancelled because of multiple failed tries. \nPlease Start From Beginning.");
+				f.failed();
+			}
+		
+			break;
+		
+		case 2 : 
+			c1.Login1();
+			if (CheckUserclass.checkUser(Username, Password))
+	    	{	
+				System.out.println("\n\nLogin Successful! \nEnter Consumer Details");
+	    		c1.Consumerdetails();
+	    		c1.enterMeterDetails();
+	    		eb.calculateBill();
+	    		b.displayBillDetails();
+	    		
+	    	}
+	    	else
+	    	{
+	    		System.out.println("Login Failed");
+	    		f.failed();
+	    	}
+	    
+			break;
+		}
+	}
+}
+
+package electricity_billing;
+
+import java.sql.SQLException;
+import java.util.Scanner;
+
+class Customer 
+{
+	public static String firstname;
+	public static String lastname;
+	public static String username;
+	public static String address;
+	public static int pincode;
+	public static long contact;
+	public static String email;
+	public static String password;
+	public static String repassword;
+	public static String Username;
+	public static String Password;
+	public static String Username1;
+	public static String Password1;
+	public static String Username2;
+	public static String Password2;
+	public static String Username3;
+	public static String Password3;
+	public static String ConsumerNumber;
+    public static int AreaCode;
+    public static int MeterReaderCode;
+    public static int tariff;
+    public static String phase;
+    public static int Postnumber;
+    public static int ConnectedLoad;
+    public static int tariffID;
+    public static String ConsumerName;
+    public static String Date;
+    public static String MeterNumber;
+    public static int NoofDigits;
+    public static double previousReading;
+    public static double presentReading;
+    public static double unitConsumed;
+    public static double dgovt=3;   
+    public static double Echarge;
+    public static double FCharge;
+    public static double total;
+    public static double CD;
+	
+    Scanner sc=new Scanner(System.in);
+
+	public Customer(String firstname, String lastname, String address) {
+		// TODO Auto-generated constructor stub
+		this.firstname=firstname;
+		this.lastname=lastname;
+		this.address=address;
+		
+	}
+	public String getfirstname()
+	{
+		return this.firstname;
+	}
+
+
+	public Customer() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public void Registration () throws ClassNotFoundException, SQLException
+	{
+		
+		System.out.print("\nEnter First Name      : ");
+		firstname=sc.nextLine();
+		
+		
+		System.out.print("Enter Last Name       : ");
+		lastname=sc.nextLine();
+		
+		
+		System.out.print("Enter Username        : ");
+		username=sc.nextLine();
+		
+		
+		System.out.print("Enter the Address     : ");
+		address=sc.nextLine();
+		
+		
+		System.out.print("Enter Pin Code        : ");
+		pincode=sc.nextInt();
+		
+		
+		System.out.print("Enter Contact Number  : ");
+	    contact=sc.nextLong();
+	    
+	    sc.nextLine();
+	    System.out.println("");
+	    
+	    System.out.print("Enter Email ID        : ");
+	    email=sc.nextLine();
+	    
+	    
+		
+	    
+	    for(int j=0;j<3;j++){
+            System.out.print("\nEnter the Password    : ");
+            password=sc.nextLine();
+            if(password.length()!=0)
+            {
+                System.out.print("Confirm Password      : ");
+                repassword=sc.nextLine();
+                if(CheckUserclass.registerUser(firstname, lastname, address, username, password, repassword)>0)
+                {
+                if(password.equals(repassword))
+                {
+                    j=3;
+                    System.out.println("\nSucessfully Registered");
+                    
+                }
+                else 
+                {
+                    System.out.println("\nPassword does not match");
+                    }
+            }
+            else{
+                System.out.println("Password should not be empty");
+            }
+	    }
+	    
+	    }  
+	}
+
+	    
+	    public void Login1() throws ClassNotFoundException, SQLException
+		    {
+		    	
+		    	Scanner sc=new Scanner(System.in);
+		    	System.out.print("Enter your Username         : ");
+		    	Username = sc.nextLine();
+		    	System.out.print("Enter your Password         : ");
+		    	Password = sc.nextLine();
+		    	
+		    	/*if (CheckUserclass.checkUser(Username, Password))
+		    	{
+		    		System.out.println("\n\nLogin Successful! \nEnter Consumer Details");
+		    	}
+		    	else
+		    	{
+		    		System.out.println("Login Failed");
+		    		
+		    	}
+		    */
+		}
+	    
+	
+	    public void Consumerdetails() throws ClassNotFoundException, SQLException
+	    {
+	    Scanner sc=new Scanner (System.in);
+	    System.out.print("\n\nEnter the Consumer Number       : ");
+	    ConsumerNumber=sc.next();
+	    
+	    System.out.print("Enter the Area Code             : ");
+	    AreaCode=sc.nextInt();
+	    
+	    System.out.print("Enter the Meter Reader Code     : ");
+	    MeterReaderCode=sc.nextInt();
+	    
+	    System.out.print("Enter the Tariff                : ");
+	    tariff=sc.nextInt();
+	    
+	    System.out.print("Enter the Phase                 : ");
+	    phase=sc.next();
+	    
+	    System.out.print("Enter the Postnumber            : ");
+	    Postnumber=sc.nextInt();
+	    
+	    System.out.print("Enter the Connected Load        : ");
+	    ConnectedLoad=sc.nextInt();
+	    
+	    System.out.print("Enter the Tariff ID             : ");
+	    tariffID=sc.nextInt();
+	    if(CheckUserclass.conAdd(firstname, lastname, address, Username))
+	    {
+	    System.out.print("Consumer Name                   : ");
+	    
+	    System.out.println(firstname+""+lastname);
+	    System.out.print("Address                         : ");
+	    System.out.println(address);
+	    System.out.print("Enter the Date                  : ");
+	    Date=sc.next();
+	    System.out.println("\n\nConsumer Details entered successfully!! \n\nEnter meter details.");
+	    }
+}
+
+
+	public void enterMeterDetails()
+	{
+		EBSystem eb=new EBSystem();
+		System.out.print("\n\nConsumer Number               : ");
+		System.out.println(ConsumerNumber);
+		System.out.print("Enter MeterNumber             : ");
+		MeterNumber=sc.nextLine();
+		System.out.print("Enter No of Digits            : ");
+		NoofDigits=sc.nextInt();
+		System.out.print("Enter previous Reading        : ");
+		previousReading=sc.nextDouble();
+		System.out.print("Enter present Reading         : ");
+		presentReading=sc.nextDouble();
+		unitConsumed=presentReading-previousReading;
+    
+		System.out.println("\nMeter Details entered successfully!! \n\nBill will be Displayed");
+   
+	}
+
+}
+
+package electricity_billing;
+
+class EBSystem extends Customer
+{
+	
+	
+	public void calculateBill()
+	{
+		
+		//Echarge formulae
+		if(unitConsumed<=50.0)
+		{
+			Echarge=unitConsumed * 1.45;
+		}
+		else 
+		{
+			Echarge=2.60*unitConsumed;
+		}
+		//fixed charge formulae
+		if(unitConsumed<=50)
+		{
+			FCharge=25.0;
+		}
+		else 
+		{
+			FCharge=30.0;
+		}
+		//total
+		total=(FCharge+Echarge+dgovt)*1.0;
+		//CD interest
+		CD=(0.05)*total;
+		//Net amount
+
+		}
+		
+	}
+
+package electricity_billing;
+
+class Bill extends EBSystem 
+{
+	public void displayBillDetails()
+	{
+		
+		
+		
+	    System.out.print("\nConsumer Name     : ");
+	    System.out.println(firstname+" "+lastname);
+	    System.out.print("Address           : ");
+	    System.out.println(address);
+	    System.out.println("Date              : "+Date);
+		System.out.println("Consumer Number   : "+ ConsumerNumber );
+		System.out.println("Area Code         : "+ AreaCode );
+		System.out.println("Meter Reader code : "+ MeterReaderCode);
+		System.out.println("Previous Reading  : "+ previousReading);
+		System.out.println("Present Reading   : "+ presentReading );
+		System.out.println("Units Consumed    : "+ unitConsumed);
+		System.out.println("Demand Id         : 1234" );			
+		System.out.println("Fixed Charge      : "+FCharge);
+		System.out.println("Energy Charge     : "+Echarge);
+		System.out.println("Duty to Govt      : "+dgovt);
+		System.out.println("Meter Rent        : 0");
+		System.out.println("ReCon Fee         : 0");
+		System.out.println("Demand For        : 0");
+		System.out.println("Subsidy           : 0");
+		System.out.println("Advance Paid      : 0");
+		System.out.println("Previouis arrears : 0");
+		System.out.println("Total             : "+total);
+		System.out.println("Intrest on CD     : "+CD);
+		System.out.println("Net Amount        : "+(total+CD));
+	}
+}
+
+package electricity_billing;
+
+import java.sql.SQLException;
+
+public class Failedreg extends Registration {
+		
+	public void failed() throws ClassNotFoundException, SQLException{
+		
+		Customer c=new Customer();
+		EBSystem eb=new EBSystem();
+		Failedreg f=new Failedreg();
+		Bill b=new Bill();
+		System.out.println("\nPress 1 for Registration\n"+"Press 2 for Login");
+		int x=sc.nextInt();
+		switch(x)
+		{
+		case 1 :
+			c.Registration();
+			if(password.equals(repassword)){
+				System.out.println("\nPress 3 to login.");
+				
+			   int n=sc.nextInt();
+			     switch(n)
+			    {
+			    case 3: 
+			    	c.Login1();
+					if(Username.equals(username)&& Password.equals(password))
+			    	{	
+			    		c.Consumerdetails();
+			    		c.enterMeterDetails();
+			    		eb.calculateBill();
+			    		b.displayBillDetails();
+			    	}
+			    	else
+			    	{
+			    		System.out.println("Login Failed");
+			    		f.failed();
+			    	}
+			   
+			    }
+				}else
+				{
+					System.out.println("\nRegistration cancelled");
+					f.failed();
+				}
+			break;
+		case 2 :
+			c.Login1();
+			if(Username.equals(username)&& Password.equals(password))
+	    	{	
+	    		c.Consumerdetails();
+	    		c.enterMeterDetails();
+	    		eb.calculateBill();
+	    		b.displayBillDetails();
+	    	}
+	    	else
+	    	{
+	    		System.out.println("Login Failed");
+	    		f.failed();
+	    	}
+			break;
+		}
+		
+	}
+	
+}
+
+package electricity_billing;
+import java.util.ResourceBundle;
+import java.sql.*;
+public class DBConnection {
+	public static Connection getConnect() throws ClassNotFoundException, SQLException
+	{
+	
+	Class.forName("oracle.jdbc.driver.OracleDriver");
+	Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","SYSTEM071","admin");
+	return conn;
+	}
+}
+	
+ package electricity_billing;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class CheckUserclass {
+	public static boolean flag= false;	
+	public static ResultSet rs=null;
+	public static Customer c1;
+	public static boolean checkUser(String username, String password) throws SQLException, ClassNotFoundException
+	{
+		Connection conn= DBConnection.getConnect();
+	
+	
+		
+		String sql="select * from Log1 where username=? and password=?";
+		PreparedStatement ps = conn.prepareStatement(sql);
+		try {
+			ps.setString(1,username);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			ps.setString(2,password);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		while(rs.next())
+		{
+			flag = true;
+			break;
+		}
+		 
+		return flag;
+}
+	public static int srs;
+	public static int registerUser(String firstname, String lastname, String address, String username, String password, String repassword) throws ClassNotFoundException, SQLException
+	{
+		Connection conn= DBConnection.getConnect();
+	
+	
+		
+		String sql1="insert into Log1 values (?,?,?,?,?,?)";
+		PreparedStatement ps = conn.prepareStatement(sql1);
+		
+		ps.setString(1,firstname);
+		ps.setString(2,lastname);
+		ps.setString(3,address);
+		ps.setString(4,username);
+		ps.setString(5,password);
+		ps.setString(6,repassword);
+		srs = ps.executeUpdate();
+		return srs ;		
+	}
+	
+	public static boolean conAdd(String firstname,String lastname, String address,String username) throws ClassNotFoundException, SQLException
+	{
+		Connection conn= DBConnection.getConnect();
+		PreparedStatement pstmt = null;
+		pstmt = conn.prepareStatement("select firstname, lastname, address from Log1 where username=?");
+		pstmt.setString(1,username);
+		ResultSet rs = pstmt.executeQuery();
+		if(rs.next())
+		{
+			 c1=new Customer(rs.getString(1),rs.getString(2),rs.getString(3));
+		}
+		
+		    return flag;
+		}
+	}

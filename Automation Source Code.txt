@@ -1,0 +1,423 @@
+package Pages;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+
+public class Hospital_SignIn {
+    WebDriver driver;
+    
+    By superad   =By.xpath("//a[contains(text(),'Super Admin')]");
+    By button    =By.xpath("//button[@class='btn']");   
+    
+    public Hospital_SignIn(WebDriver driver)
+    {
+        this.driver=driver;    
+    }
+    
+    public void sign()
+    {        
+        driver.findElement(superad).click();
+        driver.findElement(button).click();
+        
+    }
+
+}
+
+package Pages;
+
+ 
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+
+ 
+
+public class H_InvalidSignIn {
+    WebDriver driver;
+    
+    By username   =By.id("email"); 
+    By password      =By.id("password");
+    By button    =By.xpath("//button[@class='btn']");
+    
+    public H_InvalidSignIn(WebDriver driver)
+    {
+        this.driver=driver;    
+    }
+    
+    public void invalidSignIn()
+    {        
+        driver.findElement(username).sendKeys("shaikadil3653@gamil.com");
+        driver.findElement(password).sendKeys("shaikadil3653");
+        String a=driver.getCurrentUrl();
+       
+        
+    }
+
+ 
+
+}
+
+package Pages;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+
+public class H_Front_Office {
+    WebDriver driver;
+    
+    By FrontOffice        = By.xpath("//span[contains(text(),'Front Office')]");
+    By addAppoint        = By.xpath("//a[@class='btn btn-primary btn-sm addappointment']");
+    By date                = By.id("date");
+    By Pname             = By.id("patient_name");
+    By gender                = By.id("gender");
+    By Mail              = By.id("email");
+    By Phone             = By.id("phone");
+    By DR                = By.id("select2-doctorid-container");
+    By message           = By.id("note");
+    By save              = By.id("formaddbtn");
+    By Search            = By.xpath("//input[@placeholder='Search...']");
+    By Pending          = By.xpath("//td[contains(text(),'Male')]");
+    By Approve          = By.xpath("//i[@class='fa fa-check']");
+    
+    public H_Front_Office(WebDriver driver)
+    {
+        this.driver=driver;    
+    }
+    
+    public void addApp(String d, String p, String mail, String phone, String note)
+    {
+        
+        driver.findElement(FrontOffice).click();
+        String Furl=driver.getCurrentUrl();
+        System.out.println(Furl);
+        Assert.assertEquals(Furl,"https://demo.smart-hospital.in/admin/appointment/search");
+                    
+        driver.findElement(addAppoint).click();
+        
+        driver.findElement(date).sendKeys(d);
+        
+        driver.findElement(Pname).sendKeys(p);
+        
+        Select Gender=new Select(driver.findElement(gender));
+        Gender.selectByVisibleText("Male");
+        
+        driver.findElement(Mail).sendKeys(mail);
+        
+        driver.findElement(Phone).sendKeys(phone);
+        
+        driver.findElement(DR).click();
+        Actions act=new Actions(driver);
+        act.moveToElement(driver.findElement(By.xpath("//li[contains(text(),'Sonia Bush')]")))
+        .click().build().perform();
+        
+        driver.findElement(message).sendKeys(note);
+        
+        driver.findElement(save).click();
+        driver.navigate().refresh();
+        }
+        
+    
+    
+    public void search()
+    {
+        driver.findElement(Search).sendKeys("shaik");
+        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+    }
+
+ 
+
+}
+
+package Pages;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+
+public class H_OPD {
+    WebDriver driver;
+    
+    By OPD = By.xpath("//span[contains(text(),'OPD - Out Patient')]");
+    By addpatient =By.xpath("//div[@class='box-tools addmeeting']//a[@id='add']");
+    By newPatient =By.xpath("//span[contains(text(),'New Patient')]");
+    By name = By.xpath("//input[@id='name']");
+    By Guardian =By.xpath("//div[@class='col-lg-6 col-md-6 col-sm-6']//input[@name='guardian_name']");
+    By gender =By.id("addformgender");
+    By DOB =By.xpath("//input[@id='birth_date']");
+    By Year1 =By.xpath("//th[contains(text(),'May 2021')]");
+    By Left =By.xpath("//div[@class='datepicker-years']//th[@class='prev'][contains(text(),'«')]");
+    By Year2 =By.xpath("//span[contains(text(),'2002')]");
+    By Month =By.xpath("//span[@class='month'][contains(text(),'Mar')]");
+    By Day= By.xpath("//td[contains(text(),'18')]");
+    By BloodG =By.xpath("//div[@class='col-sm-3']//select[@name='blood_group']");
+    By MaritalS = By.xpath("//div[@class='col-md-6 col-sm-12']//select[@name='marital_status']");
+    By Phone= By.xpath("//input[@id='number']");
+    By email =By.xpath("//input[@id='addformemail']");
+    By address =By.xpath("//input[@name='address']");
+    By remarks =By.xpath("//textarea[@id='note']");
+    By Allergies= By.xpath("//div[@class='col-sm-6']//textarea[@name='known_allergies']");
+    By Save= By.xpath("//button[@id='formaddpabtn']");
+    By close = By.xpath("//button[@class='close pt4']");
+    
+        
+    
+    public H_OPD(WebDriver driver)
+    {
+        this.driver=driver;    
+    }
+    
+    public void opd()
+    {
+        String opdurl=driver.getCurrentUrl();
+        System.out.println(opdurl);
+        Assert.assertEquals(opdurl,"https://demo.smart-hospital.in/admin/appointment/search");
+        
+        driver.findElement(By.xpath("//span[contains(text(),'OPD - Out Patient')]")).click();
+        driver.findElement(addpatient).click();
+        driver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS);
+        driver.findElement(newPatient).click();
+        driver.findElement(name).sendKeys("Rajesh");
+        driver.findElement(Guardian).sendKeys("Smriti verma");
+        Select Gender=new Select(driver.findElement(gender));
+        Gender.selectByVisibleText("Male");
+        driver.findElement(DOB).click();
+        Actions a=new Actions(driver);
+        a.moveToElement(driver.findElement(Year1)).doubleClick().build().perform();
+        a.moveToElement(driver.findElement(Left)).doubleClick().build().perform();
+        a.moveToElement(driver.findElement(Year2)).click().build().perform();
+        driver.findElement(Month).click();
+        driver.findElement(Day).click();
+        Select Blood=new Select(driver.findElement(BloodG));
+        Blood.selectByValue("A+");
+        Select Marital=new Select(driver.findElement(MaritalS));
+        Marital.selectByValue("Single");
+        driver.findElement(Phone).sendKeys("7454654648");
+        driver.findElement(email).sendKeys("rajesh@gmail.com");
+        driver.findElement(address).sendKeys("82 Bank Street, Brooklyn West, CA");
+        driver.findElement(remarks).sendKeys("Cardiac Attack Patient");
+        driver.findElement(Allergies).sendKeys("No");
+        driver.findElement(Save).click();
+        driver.findElement(close).click();
+        driver.navigate().refresh();
+        
+    
+    }
+
+ 
+
+}
+
+package Pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+
+ 
+
+public class H_Logout {
+    WebDriver driver;
+    
+    By img= By.xpath("//img[@class='topuser-image']");
+    By logout=By.xpath("//a[@class='pull-right']");
+    
+    public H_Logout(WebDriver driver)
+    {
+        this.driver=driver;    
+    }
+    
+    public void logout()
+    {
+        driver.findElement(img).click();
+        driver.findElement(logout).click();
+        String logouturl=driver.getCurrentUrl();
+        System.out.println(logouturl);
+        Assert.assertEquals(logouturl,"https://demo.smart-hospital.in/site/login");
+        
+    }
+
+ 
+
+}
+
+Hospital Test 
+
+package Tests;
+
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.ITestResult;
+
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.aventstack.extentreports.reporter.configuration.Theme;
+
+import Pages.Hospital_SignIn;
+import Pages.H_Front_Office;
+import Pages.H_InvalidSignIn;
+import Pages.H_Logout;
+import Pages.H_OPD;
+
+public class Hospital_Test {
+    static WebDriver driver;
+    public ExtentHtmlReporter reporter;
+    public ExtentReports ext;
+    public ExtentTest logger;
+    
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        
+        System.setProperty("webdriver.chrome.driver","C:\\SOFTWARE\\Chrome Driver\\chromedriver_win322\\chromedriver.exe");
+        driver = new ChromeDriver(); //Initialize the WebDriver
+        driver.get("https://demo.smart-hospital.in/admin/admin/dashboard#"); //define the
+        driver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS);
+    }
+    
+    @BeforeTest
+    public void setExtent()
+    {
+        reporter=new ExtentHtmlReporter(System.getProperty("user.dir")+"/test-output/Report.html");
+        reporter.config().setTheme(Theme.DARK);
+        reporter.config().setDocumentTitle("ExtentReport");
+        reporter.config().setReportName("FunctionalTest Report");
+        ext=new ExtentReports();
+        ext.attachReporter(reporter);
+    }
+    @AfterTest
+    public void endReport()
+    {
+        ext.flush();
+    }
+    @Test(priority = 0)
+    public void invalidlogin() {
+        logger = ext.createTest("Invalid SignIn");
+       
+        H_InvalidSignIn HI = new H_InvalidSignIn(driver);
+        HI.invalidSignIn();
+        System.out.println("Invalid SignIn Successfully");     
+    }
+    
+    @Test
+    public void signIn()
+    {
+        logger=ext.createTest("SignIn");
+        Hospital_SignIn HP=new Hospital_SignIn(driver);
+        HP.sign();    
+        System.out.println("SignIn Successfully");
+        System.out.println();
+    }
+    
+    @Test(dependsOnMethods={"signIn"})
+    public void frontOffice()
+    {
+        logger=ext.createTest("Front Office");
+        H_Front_Office FO=new H_Front_Office(driver);
+        FO.addApp("19/05/2021 2:00 PM", "Shaik Adil", "shaikadil3653@gmail.com", "62810509", "Kidney stone problem");    
+        FO.search();
+        System.out.println("Patient added and Searched Successfully");
+        System.out.println();
+    }
+    
+    @Test(dependsOnMethods={"frontOffice"})
+    public void opdPatient()
+    {
+        logger=ext.createTest("OPD-Out Patient");
+        H_OPD opdP=new H_OPD(driver);
+        opdP.opd();
+        System.out.println("New Patient added Successfully");
+        System.out.println();
+    }
+    
+    @Test(dependsOnMethods={"opdPatient"})
+    public void logOut()
+    {
+        logger=ext.createTest("Logout");
+        H_Logout Lo=new H_Logout(driver);
+        Lo.logout();
+        System.out.println("Logout Successfully");
+        System.out.println();
+    }
+    
+    
+    
+    @AfterMethod
+    public void tearDownAfterClass(ITestResult result) throws Exception 
+    {
+        if(result.getStatus()==ITestResult.FAILURE)
+        {
+        	logger.log(Status.FAIL, "Test Case Failed is " +result.getName());
+        	logger.log(Status.FAIL, "TestCase Failed due to "+result.getThrowable());
+        	String ScrnShot = capture(result.getName());
+        	logger.addScreenCaptureFromPath(ScrnShot);
+        }
+        else if(result.getStatus()==ITestResult.SKIP)
+        {
+        	logger.log(Status.SKIP, "Test Case is Skipped "+result.getName());
+        }
+        else if(result.getStatus()==ITestResult.SUCCESS)
+        {
+        	logger.log(Status.PASS, "TestCase is Passed " +result.getName());
+        }
+    
+    }
+    public static String capture(String ScrShtName)
+    {
+       TakesScreenshot ts=(TakesScreenshot) driver;
+       File Screenshot = ts.getScreenshotAs(OutputType.FILE);
+       String dest = System.getProperty("user.dir")+"/ErrorScreenShot/"+ScrShtName+".png";
+       try 
+        {
+        	File dest1= new File(dest);
+        	FileUtils.copyFile(Screenshot, dest1);
+        } 
+        catch (IOException e) 
+        {
+        	e.printStackTrace();
+        }
+        return dest;
+        }
+        
+    @AfterClass
+      public void close()
+        {
+            driver.close();
+        }
+        
+    
+
+ 
+
+
+}
+
